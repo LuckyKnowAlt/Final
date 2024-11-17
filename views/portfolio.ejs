@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Portfolio</title>
+</head>
+<body>
+    <header>
+        <h1>Portfolio Items</h1>
+        <% if (user.role === 'admin') { %>
+            <a href="/portfolio/create" class="btn btn-primary">Create New</a>
+        <% } %>
+    </header>
+    <div class="container">
+        <% if (items.length > 0) { %>
+            <% items.forEach(item => { %>
+                <div class="portfolio-item">
+                    <h2><%= item.title %></h2>
+                    <p><%= item.description %></p>
+                    <div class="carousel">
+                        <% item.images.forEach((image, index) => { %>
+                            <img src="/<%= image %>" alt="Images <%= index + 1 %>">
+                        <% }) %>
+                    </div>
+                    <% if (user.role === 'admin') { %>
+                        <form action="/portfolio/delete/<%= item._id %>" method="POST">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                        <a href="/portfolio/edit/<%= item._id %>" class="btn btn-secondary">Edit</a>
+                    <% } %>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No portfolio items. Create one.</p>
+        <% } %>
+    </div>
+    <footer>
+        <p>Portfolio App by Nazir from BDA-2302; 2024</p>
+    </footer>
+</body>
+</html>
